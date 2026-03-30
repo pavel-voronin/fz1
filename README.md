@@ -8,6 +8,18 @@ It loads a filesystem catalog, lets you browse it as a tree or fuzzy-search it l
 
 ## Install
 
+From crates.io:
+
+```bash
+cargo install fz1
+```
+
+From GitHub Releases:
+
+1. Download the archive for your platform from the [latest release](https://github.com/pavel-voronin/fz1/releases/latest)
+2. Extract the `fz1` binary
+3. Put it somewhere on your `PATH`
+
 From source:
 
 ```bash
