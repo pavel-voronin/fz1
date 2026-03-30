@@ -1,0 +1,10 @@
+= Midnight Commander
+Tags: file-managers, dual-pane
+
+Classic dual-pane terminal file manager for keyboard-driven file operations.
+
+Useful context:
+Midnight Commander is good when you want a persistent split view for copying, moving, comparing, and browsing directories without leaving the terminal.
+
+Typical usage:
+Start `mc`, navigate with arrows, use function-key actions for copy, move, edit, view, and menu operations.

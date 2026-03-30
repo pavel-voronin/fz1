@@ -1,0 +1,16 @@
+xplr
+Tags: file-managers, hackable
+
+Hackable, minimal, fast TUI file explorer with scriptable behavior.
+
+Important note:
+xplr can print the working directory on exit, which makes it useful for shell workflows.
+
+Help head:
+USAGE:
+    xplr [FLAG]... [OPTION]... [PATH] [SELECTION]...
+--print-pwd-as-result    Prints the present working directory when quitting
+--read-only              Enables read-only mode
+--config <PATH>          Specifies a custom config file
+
+> xplr --help

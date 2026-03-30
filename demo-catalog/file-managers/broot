@@ -1,0 +1,14 @@
+broot
+Tags: file-managers, terminal
+
+Tree-style terminal file manager and navigator with previews and custom actions.
+
+Important note:
+broot is best launched as `br` when you want shell integration such as `cd` back into the caller.
+
+Help head:
+Usage: broot [options] [ROOT]
+ROOT: Root Directory
+--show-git-info   Show git statuses on files and stats on repo
+--hidden          Show hidden files
+--git-ignored     Show git ignored files

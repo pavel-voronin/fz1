@@ -1,0 +1,15 @@
+Yazi
+Tags: file-managers, rust
+
+Fast terminal file manager with explicit chooser and cwd handoff options.
+
+Important note:
+Yazi can report the final cwd or chosen files through dedicated output files, which makes shell integration straightforward.
+
+Help head:
+Usage: yazi [OPTIONS] [ENTRIES]...
+--cwd-file <CWD_FILE>          Write the cwd on exit to this file
+--chooser-file <CHOOSER_FILE>  Write the selected files to this file
+--clear-cache                  Clear the cache directory
+
+> yazi --help

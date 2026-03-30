@@ -1,0 +1,22 @@
+Git
+Tags: root, version-control
+
+Distributed version control system for tracking code changes.
+
+Important note:
+Git groups commands by task: start a working area, work on the current change, examine history and state, and collaborate with remotes.
+
+Help head:
+usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>] <command> [<args>]
+
+These are common Git commands used in various situations:
+clone      Clone a repository into a new directory
+init       Create an empty Git repository or reinitialize an existing one
+status     Show the working tree status
+log        Show commit logs
+pull       Fetch from and integrate with another repository or a local branch
+
+> git --help
+@ git status
+@(History graph) git log --oneline --decorate --graph
+@(Recent commits) git log --oneline --decorate -20

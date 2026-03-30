@@ -1,0 +1,18 @@
+nnn
+Tags: file-managers, minimal
+
+Minimal terminal file manager focused on speed and low overhead.
+
+Important note:
+The help calls it "The unorthodox terminal file manager."
+
+Help head:
+usage: nnn [OPTIONS] [PATH]
+PATH   start dir/file [default: .]
+-d     detail mode
+-e     text in $VISUAL/$EDITOR/vi
+-H     show hidden files
+-o     open files only on Enter
+-z     in order fuzzy filters
+
+> nnn -h
