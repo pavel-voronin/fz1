@@ -1,6 +1,6 @@
 [package]
 name = "fz1"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 description = "Terminal catalog and picker for CLI tools"
 license = "MIT"
@@ -14,6 +14,7 @@ include = [
     "/src/**",
     "/shell/**",
     "/demo-catalog/**",
+    "/demo.gif",
     "/Cargo.toml",
     "/Cargo.lock",
     "/README.md",

@@ -6,6 +6,10 @@
 
 It loads a filesystem catalog, lets you browse it as a tree or fuzzy-search it like `fzf`, shows descriptions in a second pane, and prints the selected value to `stdout` instead of executing it.
 
+## Demo
+
+![fz1 demo](./demo.gif)
+
 ## Install
 
 From crates.io:
