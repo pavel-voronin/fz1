@@ -36,12 +36,12 @@ cargo install --path .
 
 `fz1` renders the TUI on the terminal and prints only the selected value to `stdout`, so shell wrappers can insert it into the current prompt.
 
-Source one of the included scripts:
+Evaluate one of the built-in scripts from the installed binary:
 
 ```bash
-source /path/to/fz1/shell/fz1.zsh
-source /path/to/fz1/shell/fz1.bash
-source /path/to/fz1/shell/fz1.fish
+source <(fz1 integration zsh)
+source <(fz1 integration bash)
+fz1 integration fish | source
 ```
 
 Default key binding in each script: `Ctrl+X g`.
@@ -51,7 +51,10 @@ Default key binding in each script: `Ctrl+X g`.
 ```text
 Terminal catalog and picker for CLI tools
 
-Usage: fz1 [OPTIONS]
+Usage: fz1 [OPTIONS] [COMMAND]
+
+Commands:
+  integration  Print shell integration script to stdout
 
 Options:
       --catalog-dir <CATALOG_DIR>  Path to the catalog directory

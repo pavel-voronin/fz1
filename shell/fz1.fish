@@ -1,7 +1,7 @@
 # fz1 fish integration
 #
 # Usage — add to ~/.config/fish/config.fish:
-#   source /path/to/fz1/shell/fz1.fish
+#   fz1 integration fish | source
 #
 # Default binding: Ctrl+X g
 

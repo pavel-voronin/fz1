@@ -1,7 +1,7 @@
 # fz1 bash integration
 #
 # Usage — add to ~/.bashrc:
-#   source /path/to/fz1/shell/fz1.bash
+#   source <(fz1 integration bash)
 #
 # Default binding: Ctrl+X g
 # Requires bash 4+

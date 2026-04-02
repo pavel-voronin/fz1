@@ -9,7 +9,7 @@ mod tree;
 mod ui;
 mod xdg;
 
-use clap::Parser;
+use clap::{Parser, Subcommand, ValueEnum};
 use std::path::PathBuf;
 
 #[cfg(not(target_os = "windows"))]
@@ -28,6 +28,8 @@ const DEFAULT_CATALOG_DIR_SECTION: &str =
     after_help = DEFAULT_CATALOG_DIR_SECTION
 )]
 struct Cli {
+    #[command(subcommand)]
+    command: Option<Command>,
     #[arg(long, help = "Path to the catalog directory")]
     catalog_dir: Option<PathBuf>,
     /// Print the resolved catalog directory and exit
@@ -38,8 +40,28 @@ struct Cli {
     no_enrich: bool,
 }
 
+#[derive(Subcommand)]
+enum Command {
+    /// Print shell integration script to stdout
+    Integration {
+        #[arg(value_enum)]
+        shell: IntegrationShell,
+    },
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, ValueEnum)]
+enum IntegrationShell {
+    Bash,
+    Fish,
+    Zsh,
+}
+
 fn main() -> std::io::Result<()> {
     let cli = Cli::parse();
+    if let Some(Command::Integration { shell }) = cli.command {
+        print!("{}", integration_script(shell));
+        return Ok(());
+    }
     let catalog_root = resolve_catalog_dir(cli.catalog_dir);
     if cli.print_catalog_dir {
         println!("{}", catalog_root.display());
@@ -68,6 +90,14 @@ fn resolve_catalog_dir(catalog_dir: Option<PathBuf>) -> PathBuf {
     catalog_dir.unwrap_or_else(default_catalog_dir)
 }
 
+fn integration_script(shell: IntegrationShell) -> &'static str {
+    match shell {
+        IntegrationShell::Bash => include_str!("../shell/fz1.bash"),
+        IntegrationShell::Fish => include_str!("../shell/fz1.fish"),
+        IntegrationShell::Zsh => include_str!("../shell/fz1.zsh"),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -82,5 +112,23 @@ mod tests {
     fn cli_accepts_print_catalog_dir_flag() {
         let cli = Cli::try_parse_from(["fz1", "--print-catalog-dir"]).unwrap();
         assert!(cli.print_catalog_dir);
+    }
+
+    #[test]
+    fn cli_accepts_integration_subcommand() {
+        let cli = Cli::try_parse_from(["fz1", "integration", "zsh"]).unwrap();
+        assert!(matches!(
+            cli.command,
+            Some(Command::Integration {
+                shell: IntegrationShell::Zsh
+            })
+        ));
+    }
+
+    #[test]
+    fn integration_script_embeds_shell_files() {
+        assert!(integration_script(IntegrationShell::Bash).contains("fz1_widget"));
+        assert!(integration_script(IntegrationShell::Fish).contains("function fz1-widget"));
+        assert!(integration_script(IntegrationShell::Zsh).contains("zle -N fz1-widget"));
     }
 }

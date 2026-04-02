@@ -1,7 +1,7 @@
 # fz1 zsh integration
 #
 # Usage — add to ~/.zshrc:
-#   source /path/to/fz1/shell/fz1.zsh
+#   source <(fz1 integration zsh)
 #
 # Default binding: Ctrl+X g
 
