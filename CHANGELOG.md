@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4 - 2026-04-02
+
+- Internal: run CI on main only for Rust and workflow changes.
+
 ## 0.1.3 - 2026-04-02
 
 - Add: support `--print-catalog-dir`.
