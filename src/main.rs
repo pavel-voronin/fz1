@@ -24,6 +24,7 @@ const DEFAULT_CATALOG_DIR_SECTION: &str =
 #[command(
     name = "fz1",
     about = "Terminal catalog and picker for CLI tools",
+    version,
     after_help = DEFAULT_CATALOG_DIR_SECTION
 )]
 struct Cli {

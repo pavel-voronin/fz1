@@ -57,6 +57,7 @@ Options:
       --catalog-dir <CATALOG_DIR>  Path to the catalog directory
       --no-enrich                  Disable async description enrichment
   -h, --help                       Print help
+  -V, --version                    Print version
 
 Default Catalog:
   $XDG_DATA_HOME/fz1/catalog or ~/.local/share/fz1/catalog
