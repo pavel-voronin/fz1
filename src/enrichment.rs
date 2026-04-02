@@ -54,7 +54,10 @@ fn run_command(cmd: &str) -> (String, Option<String>) {
     match command.output() {
         Ok(out) => {
             if out.status.success() {
-                (sanitize_command_output(&out.stdout), None)
+                (
+                    sanitize_command_output(&merge_success_output(&out.stdout, &out.stderr)),
+                    None,
+                )
             } else {
                 let status_text = match out.status.code() {
                     Some(code) => format!("exit code: {}", code),
@@ -65,6 +68,23 @@ fn run_command(cmd: &str) -> (String, Option<String>) {
         }
         Err(e) => (String::new(), Some(format!("failed to start: {}", e))),
     }
+}
+
+fn merge_success_output(stdout: &[u8], stderr: &[u8]) -> Vec<u8> {
+    if stderr.is_empty() {
+        return stdout.to_vec();
+    }
+    if stdout.is_empty() {
+        return stderr.to_vec();
+    }
+
+    let mut merged = Vec::with_capacity(stdout.len() + stderr.len() + 1);
+    merged.extend_from_slice(stdout);
+    if !stdout.ends_with(b"\n") {
+        merged.push(b'\n');
+    }
+    merged.extend_from_slice(stderr);
+    merged
 }
 
 fn configure_isolated_command(command: &mut Command) {
@@ -175,6 +195,22 @@ mod tests {
     fn strips_terminal_control_sequences_from_output() {
         let raw = b"N\x08NA\x08AM\x08ME\x08E\nc\x08cp\x08p\n\tflag\r\n";
         assert_eq!(sanitize_command_output(raw), "NAME\ncp\n    flag");
+    }
+
+    #[test]
+    fn merges_stdout_and_stderr_on_success() {
+        assert_eq!(
+            sanitize_command_output(&merge_success_output(b"out", b"err")),
+            "out\nerr"
+        );
+        assert_eq!(
+            sanitize_command_output(&merge_success_output(b"", b"err")),
+            "err"
+        );
+        assert_eq!(
+            sanitize_command_output(&merge_success_output(b"out", b"")),
+            "out"
+        );
     }
 
     #[cfg(unix)]

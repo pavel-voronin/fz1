@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 - 2026-04-02
+
+- Fix: include `stderr` in successful enrichment output.
+
 ## 0.1.0 - 2026-03-31
 
 - Initial public release.

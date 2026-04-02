@@ -1,4 +1,4 @@
-[![version](https://img.shields.io/badge/version-0.1.0-blue)](https://github.com/pavel-voronin/fz1)
+[![version](https://img.shields.io/badge/version-0.1.2-blue)](https://github.com/pavel-voronin/fz1)
 
 # fz1
 
