@@ -54,6 +54,24 @@ jobs:
           mkdir -p dist
           cp "${{ matrix.binary_path }}" "dist/${{ matrix.artifact_name }}"
 
+      - name: Extract release notes from changelog
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          version="${TAG_NAME#v}"
+          output_file="${{ github.workspace }}/RELEASE_NOTES.md"
+          awk -v version="$version" '
+            index($0, "## " version " - ") == 1 { in_section = 1; next }
+            /^## / && in_section { exit }
+            in_section { print }
+          ' CHANGELOG.md > "$output_file"
+
+          if [ ! -s "$output_file" ]; then
+            echo "Failed to find changelog section for version $version" >&2
+            exit 1
+          fi
+
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
@@ -65,6 +83,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: dist/${{ matrix.artifact_name }}
+          body_path: ${{ github.workspace }}/RELEASE_NOTES.md
           generate_release_notes: true
 
   publish-crate:
