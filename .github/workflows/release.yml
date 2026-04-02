@@ -34,9 +34,14 @@ jobs:
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
 
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2
+
+      - name: Run Clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
 
       - name: Run tests
         run: cargo test
@@ -73,9 +78,14 @@ jobs:
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
 
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2
+
+      - name: Run Clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
 
       - name: Verify crates.io token is configured
         env:

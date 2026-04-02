@@ -438,8 +438,7 @@ fn handle_template_picker_click(
 fn install_signal_handlers() -> io::Result<Arc<AtomicBool>> {
     let exit = Arc::new(AtomicBool::new(false));
     for signal in [SIGINT, SIGTERM, SIGHUP, SIGQUIT] {
-        flag::register(signal, Arc::clone(&exit))
-            .map_err(|err| io::Error::new(io::ErrorKind::Other, err))?;
+        flag::register(signal, Arc::clone(&exit)).map_err(io::Error::other)?;
     }
     Ok(exit)
 }
@@ -935,30 +934,30 @@ fn render_description(f: &mut Frame, app: &mut App, area: Rect) {
                 lines.push(Line::from(cmd_spans));
                 plain_lines.push(plain_command);
                 plain_line_highlights.push(Vec::new());
-                if let Some(output) = entry.enriched_output.get(*i) {
-                    if !output.is_empty() {
-                        let range = search_context
-                            .as_ref()
-                            .and_then(|(_, layout)| layout.enriched_output.get(*i))
-                            .and_then(|range| range.as_ref());
-                        let mut output_offset = 0usize;
-                        for out_line in output.lines() {
-                            let indices =
-                                search_context
-                                    .as_ref()
-                                    .map_or_else(Vec::new, |(result, _)| {
-                                        SearchEngine::highlight_indices_for_line(
-                                            &result.highlight_indices,
-                                            range,
-                                            output_offset,
-                                            out_line,
-                                        )
-                                    });
-                            lines.push(highlight_line(out_line, &indices, Style::default()));
-                            plain_lines.push(out_line.to_string());
-                            plain_line_highlights.push(indices);
-                            output_offset += out_line.chars().count() + 1;
-                        }
+                if let Some(output) = entry.enriched_output.get(*i)
+                    && !output.is_empty()
+                {
+                    let range = search_context
+                        .as_ref()
+                        .and_then(|(_, layout)| layout.enriched_output.get(*i))
+                        .and_then(|range| range.as_ref());
+                    let mut output_offset = 0usize;
+                    for out_line in output.lines() {
+                        let indices =
+                            search_context
+                                .as_ref()
+                                .map_or_else(Vec::new, |(result, _)| {
+                                    SearchEngine::highlight_indices_for_line(
+                                        &result.highlight_indices,
+                                        range,
+                                        output_offset,
+                                        out_line,
+                                    )
+                                });
+                        lines.push(highlight_line(out_line, &indices, Style::default()));
+                        plain_lines.push(out_line.to_string());
+                        plain_line_highlights.push(indices);
+                        output_offset += out_line.chars().count() + 1;
                     }
                 }
             }

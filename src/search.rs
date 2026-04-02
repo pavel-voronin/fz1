@@ -209,14 +209,14 @@ impl SearchEngine {
         {
             return indices;
         }
-        if let Some(display_name) = entry.display_name.as_deref() {
-            if let Some(indices) = Self::range_adjusted_direct_match(
+        if let Some(display_name) = entry.display_name.as_deref()
+            && let Some(indices) = Self::range_adjusted_direct_match(
                 layout.display_name.as_ref(),
                 display_name,
                 pattern,
-            ) {
-                return indices;
-            }
+            )
+        {
+            return indices;
         }
         if let Some(indices) = Self::range_adjusted_direct_match(
             layout.description.as_ref(),
@@ -240,9 +240,7 @@ impl SearchEngine {
         text: &str,
         pattern: &str,
     ) -> Option<Vec<usize>> {
-        let Some(range) = range else {
-            return None;
-        };
+        let range = range?;
         let indices = Self::first_direct_substring_indices(text, pattern)?;
         Some(indices.into_iter().map(|idx| range.start + idx).collect())
     }

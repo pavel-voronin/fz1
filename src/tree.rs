@@ -67,23 +67,25 @@ impl TreeState {
                         child_cats.push(seg.to_string());
                     }
                 }
-            } else {
-                if cat == prefix {
-                    direct_entries.push(i);
-                } else if cat.starts_with(&format!("{}/", prefix)) {
-                    let rest = &cat[prefix.len() + 1..];
-                    let seg = rest.split('/').next().unwrap_or("");
-                    let full = format!("{}/{}", prefix, seg);
-                    if !child_cats.contains(&full) {
-                        child_cats.push(full);
-                    }
+            } else if cat == prefix {
+                direct_entries.push(i);
+            } else if cat.starts_with(&format!("{}/", prefix)) {
+                let rest = &cat[prefix.len() + 1..];
+                let seg = rest.split('/').next().unwrap_or("");
+                let full = format!("{}/{}", prefix, seg);
+                if !child_cats.contains(&full) {
+                    child_cats.push(full);
                 }
             }
         }
 
         let total_items = child_cats.len() + direct_entries.len();
         for (index, cat_path) in child_cats.iter().enumerate() {
-            let name = cat_path.split('/').last().unwrap_or(cat_path).to_string();
+            let name = cat_path
+                .split('/')
+                .next_back()
+                .unwrap_or(cat_path)
+                .to_string();
             let collapsed = self.collapsed.contains(cat_path);
             let has_next_sibling = index + 1 < total_items;
             out.push(TreeItem {
@@ -157,11 +159,11 @@ impl TreeState {
                 if let Some(slash) = path.rfind('/') {
                     let parent = path[..slash].to_string();
                     for (i, it) in items.iter().enumerate() {
-                        if let TreeItemKind::Category { path: p, .. } = &it.kind {
-                            if *p == parent {
-                                self.cursor = i;
-                                break;
-                            }
+                        if let TreeItemKind::Category { path: p, .. } = &it.kind
+                            && *p == parent
+                        {
+                            self.cursor = i;
+                            break;
                         }
                     }
                 }
@@ -170,11 +172,11 @@ impl TreeState {
                 let cat = entries[entry_index].category.clone();
                 if !cat.is_empty() {
                     for (i, it) in items.iter().enumerate() {
-                        if let TreeItemKind::Category { path, .. } = &it.kind {
-                            if *path == cat {
-                                self.cursor = i;
-                                break;
-                            }
+                        if let TreeItemKind::Category { path, .. } = &it.kind
+                            && *path == cat
+                        {
+                            self.cursor = i;
+                            break;
                         }
                     }
                 }
@@ -233,16 +235,15 @@ impl TreeState {
 
     pub fn toggle_collapse(&mut self, entries: &[Entry]) {
         let items = self.visible_items(entries);
-        if let Some(item) = items.get(self.cursor).cloned() {
-            if let TreeItemKind::Category {
+        if let Some(item) = items.get(self.cursor).cloned()
+            && let TreeItemKind::Category {
                 path, collapsed, ..
             } = item.kind
-            {
-                if collapsed {
-                    self.collapsed.remove(&path);
-                } else {
-                    self.collapsed.insert(path);
-                }
+        {
+            if collapsed {
+                self.collapsed.remove(&path);
+            } else {
+                self.collapsed.insert(path);
             }
         }
         // clamp cursor in case it's now past end
@@ -263,11 +264,11 @@ impl TreeState {
         }
         let items = self.visible_items(entries);
         for (i, item) in items.iter().enumerate() {
-            if let TreeItemKind::Entry { entry_index: ei } = item.kind {
-                if ei == entry_index {
-                    self.cursor = i;
-                    break;
-                }
+            if let TreeItemKind::Entry { entry_index: ei } = item.kind
+                && ei == entry_index
+            {
+                self.cursor = i;
+                break;
             }
         }
         self.update_selected(entries);

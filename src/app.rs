@@ -218,12 +218,12 @@ impl App {
             return;
         }
         for result in results {
-            if let Some(entry) = self.entries.iter_mut().find(|e| e.path == result.path) {
-                if result.command_index < entry.enriched_output.len() {
-                    entry.enriched_output[result.command_index] = result.output;
-                    if result.command_index < entry.enriched_status.len() {
-                        entry.enriched_status[result.command_index] = result.status_text;
-                    }
+            if let Some(entry) = self.entries.iter_mut().find(|e| e.path == result.path)
+                && result.command_index < entry.enriched_output.len()
+            {
+                entry.enriched_output[result.command_index] = result.output;
+                if result.command_index < entry.enriched_status.len() {
+                    entry.enriched_status[result.command_index] = result.status_text;
                 }
             }
         }

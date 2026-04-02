@@ -49,10 +49,10 @@ fn collect_entries(root: &Path, dir: &Path, out: &mut Vec<Entry>) -> std::io::Re
         let path = child.path();
         if path.is_dir() {
             collect_entries(root, &path, out)?;
-        } else if path.is_file() {
-            if let Ok(entry) = parse_entry(&path, root) {
-                out.push(entry);
-            }
+        } else if path.is_file()
+            && let Ok(entry) = parse_entry(&path, root)
+        {
+            out.push(entry);
         }
     }
     Ok(())

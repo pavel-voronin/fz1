@@ -3,6 +3,7 @@
 ## 0.1.3 - 2026-04-02
 
 - Add: support `--print-catalog-dir`.
+- Internal: enforce clippy checks in CI.
 
 ## 0.1.2 - 2026-04-02
 
