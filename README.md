@@ -1,4 +1,4 @@
-[![version](https://img.shields.io/badge/version-0.1.2-blue)](https://github.com/pavel-voronin/fz1)
+[![version](https://img.shields.io/badge/version-0.1.3-blue)](https://github.com/pavel-voronin/fz1)
 
 # fz1
 
@@ -55,6 +55,7 @@ Usage: fz1 [OPTIONS]
 
 Options:
       --catalog-dir <CATALOG_DIR>  Path to the catalog directory
+      --print-catalog-dir          Print the resolved catalog directory and exit
       --no-enrich                  Disable async description enrichment
   -h, --help                       Print help
   -V, --version                    Print version
